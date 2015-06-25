@@ -49,9 +49,9 @@ var options = {
 		var output = '';
 		
 		$.ajax({
-		  url: 'http://www.homefood.hu/phonegap/uj_rendeles_van_e.php',
+		  url: 'http://www.webpecs.hu/fry_rendelesek.php',
 		  type: 'GET',
-		  data: { ids: ids, aids: aids, vids: vids, user: window.username, passw: window.password },
+		  data: { ids: ids, page: window.page },
 		  dataType: 'jsonp',
 		  jsonpCallback: 'jsonCallback',
 		  success: function(data) {
@@ -90,8 +90,8 @@ function Store(page) {
   window.page = page;
   window.localStorage.setItem("page", window.page);
 
-  beolvasas();
-  intervalId = setInterval('beolvasas()',10*1000);
+//  beolvasas();
+//  intervalId = setInterval('beolvasas()',10*1000);
 }
 
 function Back() {
@@ -135,9 +135,35 @@ function Back() {
 	</div><!-- /header -->
 
 	<div role="main" class="content">
-  
-    <div id="holder"></div>
-        
+
+    <input name="darab" id="darab" min="1" max="10" value="1" type="range">
+
+    <fieldset data-role="controlgroup">
+        <input name="kaja" id="kaja1" value="" type="radio">
+        <label for="kaja1">Krumpli</label>
+        <input name="kaja" id="kaja2" value="" type="radio">
+        <label for="kaja2">Fry &amp; Fly</label>
+        <input name="kaja" id="kaja3" value="" type="radio">
+        <label for="kaja3">Funky</label>
+        <input name="kaja" id="kaja4" value="" type="radio">
+        <label for="kaja4">Frips</label>
+    </fieldset>
+
+    <fieldset data-role="controlgroup" data-type="horizontal" style="display:inline;">
+        <input name="sos" id="sos1" value="s" type="radio">
+        <label for="sos1">Sima</label>
+        <input name="sos" id="sos2" value="f" type="radio">
+        <label for="sos2">Fűszeres</label>
+    </fieldset>
+
+    <fieldset data-role="controlgroup" data-type="horizontal" style="display:inline;">
+        <input name="meret" id="meret1" value="k" type="radio">
+        <label for="meret1">Kicsi</label>
+        <input name="meret" id="meret2" value="n" type="radio">
+        <label for="meret2">Nagy</label>
+    </fieldset>
+
+    
 	</div><!-- /content -->
 
 </div><!-- /page two -->
