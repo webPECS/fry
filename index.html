@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>HomeFood</title>
+    
+	<link rel="stylesheet" href="themes/fry.min.css" />
+	<link rel="stylesheet" href="themes/jquery.mobile.structure-1.4.5.min.css" />
+	<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+    
+<!--  <script type="text/javascript" src="phonegap.js"></script> -->
+	<script src="scripts/jquery-1.11.1.min.js"></script>
+
+  <script>
+    $( document ).on( "mobileinit", function() {
+      $.mobile.allowCrossDomainPages = true;
+    });
+  </script>    
+    
+	<script src="scripts/jquery.mobile-1.4.5.min.js"></script>
+    
+
+    
+<script type="text/javascript">
+
+    // alert dialog dismissed
+    function alertDismissed() {
+        intervalId = setInterval('beolvasas()',15*1000);
+    }
+	
+	
+    function showAlert() {
+//        navigator.notification.beep(1);
+//        navigator.notification.vibrate(1000);
+    }
+
+
+
+var options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+
+	
+	function beolvasas() {
+		var output = '';
+		
+		$.ajax({
+		  url: 'http://www.homefood.hu/phonegap/uj_rendeles_van_e.php',
+		  type: 'GET',
+		  data: { ids: ids, aids: aids, vids: vids, user: window.username, passw: window.password },
+		  dataType: 'jsonp',
+		  jsonpCallback: 'jsonCallback',
+		  success: function(data) {
+			if (data.futar_id>0) {
+			  output = '';
+			  
+			} else {
+				output = '<p><strong>Hiba!</strong></p>';
+				output += '<p>A felhasználónév vagy a jelszó nem megfelelő.</p>';
+        output += '<p><a href="#one" data-role="button" data-icon="back" data-inline="true" onclick="Back()">Vissza</a></p>';
+		  	$("#two .content").html(output).trigger('create');
+			}
+		  }
+		});
+	}
+  
+  
+function RendelesKiiras(rendeles) {
+  var output = '<strong>' + rendeles.etterem + '</strong><br /> ';
+  output += rendeles.varos + ', ';
+  output += rendeles.utca + ' ';
+  output += rendeles.hszam;
+
+  if (rendeles.emelet != '') {
+    output += ' (' + rendeles.emelet + ')<br> ';
+  } else {
+    output += '<br> ';
+  }
+
+         
+  output += '<strong>' + rendeles.ar + ' Ft</strong><br />';
+  return output;  
+}
+	
+function Store(page) {
+  window.page = page;
+  window.localStorage.setItem("page", window.page);
+
+  beolvasas();
+  intervalId = setInterval('beolvasas()',10*1000);
+}
+
+function Back() {
+  $("#two .content").html('');
+  clearInterval(intervalId);
+}
+
+	
+</script>    
+</head>
+
+<body>
+
+<!-- Start of first page: #one -->
+<div data-role="page" id="one">
+
+	<div data-role="header">
+		<h1>HomeFood</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="content">
+    
+    <p>Kérlek válassz funkciót:</p>
+    
+    <a href="#two" data-role="button" data-icon="forward" onClick="Store('two');">Rendelés leadása</a>
+
+    <a href="#three" data-role="button" data-icon="forward" onClick="Store('three');">Beérkező rendelések</a>
+    
+	</div><!-- /content -->
+
+</div><!-- /page one -->
+
+
+
+
+<!-- Start of second page: #two -->
+<div data-role="page" id="two">
+
+	<div data-role="header">
+		<h1>HomeFood</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="content">
+  
+    <div id="holder"></div>
+        
+	</div><!-- /content -->
+
+</div><!-- /page two -->
+
+
+<script type="text/javascript">
+
+  //felhasználónév és jelszó tárolása
+  window.page = window.localStorage.getItem("page");
+  $("#page").val(window.page);
+
+//  window.plugin.backgroundMode.enable();
+
+</script>
+</body>
+</html>
