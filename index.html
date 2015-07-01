@@ -67,7 +67,13 @@ var options = {
 		  }
 		});
 	}
-  
+
+
+function RendelesTarolasa() {
+	tomb.push([$("#darab").val(),$('input[name=kaja]:checked').val(),$('input[name=sos]:checked').val(),$('input[name=meret]:checked').val()]);
+	console.log(tomb);
+	
+}
   
 function RendelesKiiras(rendeles) {
   var output = '<strong>' + rendeles.etterem + '</strong><br /> ';
@@ -89,7 +95,7 @@ function RendelesKiiras(rendeles) {
 function Store(page) {
   window.page = page;
   window.localStorage.setItem("page", window.page);
-
+  
 //  beolvasas();
 //  intervalId = setInterval('beolvasas()',10*1000);
 }
@@ -97,6 +103,10 @@ function Store(page) {
 function Back() {
   $("#two .content").html('');
   clearInterval(intervalId);
+}
+
+function showPlus() {
+	$("#plusz").show();
 }
 
 	
@@ -109,16 +119,16 @@ function Back() {
 <div data-role="page" id="one">
 
 	<div data-role="header">
-		<h1>HomeFood</h1>
+		<h1>Fry</h1>
 	</div><!-- /header -->
 
 	<div role="main" class="content">
     
     <p>Kérlek válassz funkciót:</p>
     
-    <a href="#two" data-role="button" data-icon="forward" onClick="Store('two');">Rendelés leadása</a>
+    <a href="#two" data-role="button" data-icon="action" onClick="Store('#two');">Rendelés leadása</a>
 
-    <a href="#three" data-role="button" data-icon="forward" onClick="Store('three');">Beérkező rendelések</a>
+    <a href="#three" data-role="button" data-icon="bullets" onClick="Store('#three');">Beérkező rendelések</a>
     
 	</div><!-- /content -->
 
@@ -131,33 +141,35 @@ function Back() {
 <div data-role="page" id="two">
 
 	<div data-role="header">
-		<h1>HomeFood</h1>
+		<h1>Fry</h1>
+		<a href="#one" data-icon="home" class="ui-btn-left" data-iconpos="notext">vissza</a>
+		<a onclick="RendelesTarolasa()" data-icon="plus" class="ui-btn-right" data-iconpos="notext" style="display:none;" id="plusz">plusz</a>
 	</div><!-- /header -->
 
 	<div role="main" class="content">
 
     <input name="darab" id="darab" min="1" max="10" value="1" type="range">
 
-    <fieldset data-role="controlgroup">
-        <input name="kaja" id="kaja1" value="" type="radio">
+    <fieldset data-role="controlgroup" onClick="showPlus()">
+        <input name="kaja" id="kaja1" value="1" type="radio">
         <label for="kaja1">Krumpli</label>
-        <input name="kaja" id="kaja2" value="" type="radio">
+        <input name="kaja" id="kaja2" value="2" type="radio">
         <label for="kaja2">Fry &amp; Fly</label>
-        <input name="kaja" id="kaja3" value="" type="radio">
+        <input name="kaja" id="kaja3" value="3" type="radio">
         <label for="kaja3">Funky</label>
-        <input name="kaja" id="kaja4" value="" type="radio">
+        <input name="kaja" id="kaja4" value="4" type="radio">
         <label for="kaja4">Frips</label>
     </fieldset>
 
     <fieldset data-role="controlgroup" data-type="horizontal" style="display:inline;">
-        <input name="sos" id="sos1" value="s" type="radio">
+        <input name="sos" id="sos1" value="s" type="radio" checked="checked">
         <label for="sos1">Sima</label>
         <input name="sos" id="sos2" value="f" type="radio">
         <label for="sos2">Fűszeres</label>
     </fieldset>
 
     <fieldset data-role="controlgroup" data-type="horizontal" style="display:inline;">
-        <input name="meret" id="meret1" value="k" type="radio">
+        <input name="meret" id="meret1" value="k" type="radio" checked="checked">
         <label for="meret1">Kicsi</label>
         <input name="meret" id="meret2" value="n" type="radio">
         <label for="meret2">Nagy</label>
@@ -171,11 +183,16 @@ function Back() {
 
 <script type="text/javascript">
 
+$( document ).ready(function() {
   //felhasználónév és jelszó tárolása
   window.page = window.localStorage.getItem("page");
-  $("#page").val(window.page);
+  $.mobile.changePage(window.page);
+//  $("#page").val(window.page);
+  
+  window.tomb = new Array(new Array());  
 
 //  window.plugin.backgroundMode.enable();
+});
 
 </script>
 </body>
