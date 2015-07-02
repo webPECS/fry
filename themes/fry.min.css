@@ -12,6 +12,9 @@
 
 /* Globals */
 
+#sos, #meret { display:inline; }
+#rendeles { display:none; }
+
 div.content { padding:2rem 1rem 3rem 1rem; }
 
 /* Custom indentations are needed because the length of custom labels differs from

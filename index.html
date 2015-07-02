@@ -25,6 +25,7 @@
     
 <script type="text/javascript">
 
+
     // alert dialog dismissed
     function alertDismissed() {
         intervalId = setInterval('beolvasas()',15*1000);
@@ -36,13 +37,6 @@
 //        navigator.notification.vibrate(1000);
     }
 
-
-
-var options = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0
-};
 
 	
 	function beolvasas() {
@@ -70,28 +64,37 @@ var options = {
 
 
 function RendelesTarolasa() {
-	tomb.push([$("#darab").val(),$('input[name=kaja]:checked').val(),$('input[name=sos]:checked').val(),$('input[name=meret]:checked').val()]);
-	console.log(tomb);
-	
+	window.tomb.push([$("#darab").val(),$('input[name=kaja]:checked').val(),$('input[name=sos]:checked').val(),$('input[name=meret]:checked').val()]);
+  var html_tmp = '';
+
+  $("#rendeles").show();
+  $("#rendeles ul").empty();
+  $.each(window.tomb, function (index, value) {
+    html_tmp = '<li>';
+    $.each(value, function (i, v) { 
+      switch (i) {
+        case 0:
+        html_tmp += v + ' db, '; 
+        break;
+        case 1:
+        html_tmp += window.kaja[v] + ' ('; 
+        break;
+        case 2:
+        html_tmp += window.sos[v] + ','; 
+        break;
+        case 3:
+        html_tmp += window.meret[v] + ')';
+        break;
+      }
+    });
+    $("#rendeles ul").append(html_tmp + '</li>');
+  });
+  $("#rendeles ul").append('<li><a href="#">Elküldöm</a></li>');
+  $("#rendeles ul").listview("refresh");
+
 }
   
-function RendelesKiiras(rendeles) {
-  var output = '<strong>' + rendeles.etterem + '</strong><br /> ';
-  output += rendeles.varos + ', ';
-  output += rendeles.utca + ' ';
-  output += rendeles.hszam;
 
-  if (rendeles.emelet != '') {
-    output += ' (' + rendeles.emelet + ')<br> ';
-  } else {
-    output += '<br> ';
-  }
-
-         
-  output += '<strong>' + rendeles.ar + ' Ft</strong><br />';
-  return output;  
-}
-	
 function Store(page) {
   window.page = page;
   window.localStorage.setItem("page", window.page);
@@ -149,32 +152,15 @@ function showPlus() {
 	<div role="main" class="content">
 
     <input name="darab" id="darab" min="1" max="10" value="1" type="range">
+    <fieldset data-role="controlgroup" onClick="showPlus()" id="kaja"></fieldset>
+    <fieldset data-role="controlgroup" data-type="horizontal" id="sos"></fieldset>
+    <fieldset data-role="controlgroup" data-type="horizontal" id="meret"></fieldset>
 
-    <fieldset data-role="controlgroup" onClick="showPlus()">
-        <input name="kaja" id="kaja1" value="1" type="radio">
-        <label for="kaja1">Krumpli</label>
-        <input name="kaja" id="kaja2" value="2" type="radio">
-        <label for="kaja2">Fry &amp; Fly</label>
-        <input name="kaja" id="kaja3" value="3" type="radio">
-        <label for="kaja3">Funky</label>
-        <input name="kaja" id="kaja4" value="4" type="radio">
-        <label for="kaja4">Frips</label>
-    </fieldset>
-
-    <fieldset data-role="controlgroup" data-type="horizontal" style="display:inline;">
-        <input name="sos" id="sos1" value="s" type="radio" checked="checked">
-        <label for="sos1">Sima</label>
-        <input name="sos" id="sos2" value="f" type="radio">
-        <label for="sos2">Fűszeres</label>
-    </fieldset>
-
-    <fieldset data-role="controlgroup" data-type="horizontal" style="display:inline;">
-        <input name="meret" id="meret1" value="k" type="radio" checked="checked">
-        <label for="meret1">Kicsi</label>
-        <input name="meret" id="meret2" value="n" type="radio">
-        <label for="meret2">Nagy</label>
-    </fieldset>
-
+    <div id="rendeles" data-role="collapsible" data-collapsed="false">
+      <h4>Rendelés</h4>
+      <ul data-role="listview">
+      </ul>
+    </div>
     
 	</div><!-- /content -->
 
@@ -183,13 +169,32 @@ function showPlus() {
 
 <script type="text/javascript">
 
+//feltölti a fieldset-et radio és label tagekkel a tömböknek megfelelően
+function fieldsetFill(name) {
+  var html_tmp = '';
+  $.each(window[name], function( index, value ) {
+    $("#"+name).controlgroup("container").append('<input name="' + name + '" id="' + name + index + '" value="' + index + '" type="radio"><label for="' + name + index + '">' + value + '</label>')
+  ;
+  });
+  $("#"+name).enhanceWithin().controlgroup("refresh");
+}
+
 $( document ).ready(function() {
   //felhasználónév és jelszó tárolása
   window.page = window.localStorage.getItem("page");
   $.mobile.changePage(window.page);
 //  $("#page").val(window.page);
   
-  window.tomb = new Array(new Array());  
+  window.tomb = new Array();
+
+	window.sos = new Array('Sima','Sós');
+  fieldsetFill('sos');
+  
+	window.meret = new Array('Kicsi','Nagy');
+  fieldsetFill('meret');
+  
+	window.kaja = new Array('Krumpli','Fry & Fly','Funky','Frips');
+  fieldsetFill('kaja');
 
 //  window.plugin.backgroundMode.enable();
 });
