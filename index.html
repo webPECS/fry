@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="themes/jquery.mobile.structure-1.4.5.min.css" />
 	<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
     
-<!--  <script type="text/javascript" src="phonegap.js"></script> -->
+  <script type="text/javascript" src="phonegap.js"></script>
 	<script src="scripts/jquery-1.11.1.min.js"></script>
 
   <script>
@@ -26,51 +26,147 @@
 <script type="text/javascript">
 
 
-    // alert dialog dismissed
-    function alertDismissed() {
-        intervalId = setInterval('beolvasas()',15*1000);
+//feltölti a fieldset-et radio és label tagekkel a tömböknek megfelelően
+function fieldsetFill(name) {
+  var html_tmp = '';
+  $.each(window[name], function( index, value ) {
+    $("#"+name).controlgroup("container").append('<input name="' + name + '" id="' + name + index + '" value="' + index + '" type="radio"><label for="' + name + index + '">' + value + '</label>')
+  ;
+  });
+  $("#"+name).enhanceWithin().controlgroup("refresh");
+}
+
+
+
+  // alert dialog dismissed
+  function alertDismissed() {
+      intervalId = setInterval('beolvasas()',15*1000);
+  }
+	
+	
+  function showAlert() {
+//      navigator.notification.beep(1);
+//      navigator.notification.vibrate(1000);
+  }
+
+
+
+function sendOrder() {
+  $.mobile.loading( 'show');
+  $("#rendeles").hide();
+	$.ajax({
+	  url: 'http://www.webpecs.hu/fry/rendeles_send.php',
+	  type: 'POST',
+//	  dataType: 'jsonp',
+//	  jsonpCallback: 'jsonCallback',
+	  data: { tomb: window.tomb }
+	});
+  window.tomb.length = 0;
+  $.mobile.loading('hide');  
+}
+
+
+function readOrder() {
+  var timestamp = '';
+  var ujtomb = new Array;
+	$.ajax({
+	  url: 'http://www.webpecs.hu/fry/rendeles_read.php',
+	  type: 'POST',
+	  dataType: 'jsonp',
+	  data: { ids: ids },    
+	  jsonpCallback: 'jsonCallback',
+	  success: function(data) {
+      if (data.tomb != null) {
+        $.each(data.tomb, function (index, value) {
+          //egy rendelés
+          if (timestamp==value[4]) {
+            ujtomb.push([value[0],value[1],value[2],value[3]]);
+          } else {
+            ujtomb.push([value[0],value[1],value[2],value[3]]);
+            timestamp = value[4];
+          }
+          ids += value[5] + ',';
+        });
+//        	window.tombr.push(ujtomb);
+        	window.tombr.push(ujtomb);
+          console.log(window.tombr);
+       listOrder();        
+      } else {
+// nem jön vissza semmi (null)
+      }
     }
-	
-	
-    function showAlert() {
-//        navigator.notification.beep(1);
-//        navigator.notification.vibrate(1000);
+	});
+}
+
+
+function deleteFromOrder(del0,del1,del2,del3) {
+  $.each(window.tomb, function (index, value) {
+    if (value[1] == del1 && value[2] == del2 && value[3] == del3) {
+      window.tomb.splice(index, 1);
+      printOrder();
     }
+  });
+}
 
 
-	
-	function beolvasas() {
-		var output = '';
-		
-		$.ajax({
-		  url: 'http://www.webpecs.hu/fry_rendelesek.php',
-		  type: 'GET',
-		  data: { ids: ids, page: window.page },
-		  dataType: 'jsonp',
-		  jsonpCallback: 'jsonCallback',
-		  success: function(data) {
-			if (data.futar_id>0) {
-			  output = '';
-			  
-			} else {
-				output = '<p><strong>Hiba!</strong></p>';
-				output += '<p>A felhasználónév vagy a jelszó nem megfelelő.</p>';
-        output += '<p><a href="#one" data-role="button" data-icon="back" data-inline="true" onclick="Back()">Vissza</a></p>';
-		  	$("#two .content").html(output).trigger('create');
-			}
-		  }
-		});
-	}
+function listOrder() {
+  var html_tmp = '';
+
+//  console.log(ujtomb);
+      
+  $.each(window.tombr, function (index, value) {
+    
+
+    html_tmp += '<div data-role="collapsible" data-iconpos="right"><h4>Új rendelés</h4>';
+    html_tmp += '<ul data-role="listview">';
+
+  $.each(value, function (ii, vv) {
+
+    console.log(vv);
+    
+    html_tmp += '<li>';
+    $.each(vv, function (i, v) { 
+      switch (i) {
+        case 0:
+        html_tmp += v + ' db, '; 
+        break;
+        case 1:
+        html_tmp += window.kaja[v] + ' ('; 
+        break;
+        case 2:
+        html_tmp += window.sos[v] + ','; 
+        break;
+        case 3:
+        html_tmp += window.meret[v] + ')';
+        break;
+      }
+    });
+    html_tmp += '</li>';
+
+    });
+    
+    html_tmp += '<li><a onclick="confirmOrder()">Átveszem</a></li>';  
+    html_tmp += '</ul>';
+    html_tmp += '</div>';
 
 
-function RendelesTarolasa() {
-	window.tomb.push([$("#darab").val(),$('input[name=kaja]:checked').val(),$('input[name=sos]:checked').val(),$('input[name=meret]:checked').val()]);
+  });
+
+
+  $("#three .content").html(html_tmp).trigger('create');
+
+}
+
+
+
+
+function printOrder() {
   var html_tmp = '';
 
   $("#rendeles").show();
   $("#rendeles ul").empty();
   $.each(window.tomb, function (index, value) {
-    html_tmp = '<li>';
+    html_tmp = '<li><a onclick="deleteFromOrder(' + value + ')" class="ui-icon-delete" style="font-weight:normal">';
     $.each(value, function (i, v) { 
       switch (i) {
         case 0:
@@ -87,26 +183,55 @@ function RendelesTarolasa() {
         break;
       }
     });
-    $("#rendeles ul").append(html_tmp + '</li>');
+    $("#rendeles ul").append(html_tmp + '</a></li>');
   });
-  $("#rendeles ul").append('<li><a href="#">Elküldöm</a></li>');
+  $("#rendeles ul").append('<li><a onclick="sendOrder()">Elküldöm</a></li>');
   $("#rendeles ul").listview("refresh");
+}
 
+
+
+
+
+function storeOrder() {
+  var count = 0;
+  //ha már van ilyen típus, akkor darabszám növelése
+  $.each(window.tomb, function (index, value) {
+    if (value[1] == $('input[name=kaja]:checked').val() && value[2] == $('input[name=sos]:checked').val() && value[3] == $('input[name=meret]:checked').val()) {
+      console.log(window.tomb[index][0],value[0]);
+      window.tomb[index][0] = parseInt(window.tomb[index][0]) + parseInt($("#darab").val());
+      count++;
+    } 
+  });
+  if (count==0) {
+   	window.tomb.push([$("#darab").val(),$('input[name=kaja]:checked').val(),$('input[name=sos]:checked').val(),$('input[name=meret]:checked').val()]);
+  }
+  printOrder();
 }
   
+
+
 
 function Store(page) {
   window.page = page;
   window.localStorage.setItem("page", window.page);
-  
-//  beolvasas();
-//  intervalId = setInterval('beolvasas()',10*1000);
+  $.mobile.changePage(window.page);
+  if (page=='#three') {
+    readOrder();
+    intervalId = setInterval('readOrder()',10*1000);
+  }  else if (page=='#two') { 
+    if (window.filled==0) {
+      fieldsetFill('sos');
+      fieldsetFill('meret');
+      fieldsetFill('kaja');
+      window.filled = 1;
+    }
+    if (typeof intervalId != 'undefined') {
+      clearInterval(intervalId);
+    }
+  }
 }
 
-function Back() {
-  $("#two .content").html('');
-  clearInterval(intervalId);
-}
 
 function showPlus() {
 	$("#plusz").show();
@@ -129,9 +254,9 @@ function showPlus() {
     
     <p>Kérlek válassz funkciót:</p>
     
-    <a href="#two" data-role="button" data-icon="action" onClick="Store('#two');">Rendelés leadása</a>
+    <a data-role="button" data-icon="action" onClick="Store('#two');">Rendelés leadása</a>
 
-    <a href="#three" data-role="button" data-icon="bullets" onClick="Store('#three');">Beérkező rendelések</a>
+    <a data-role="button" data-icon="bullets" onClick="Store('#three');">Beérkező rendelések</a>
     
 	</div><!-- /content -->
 
@@ -146,7 +271,7 @@ function showPlus() {
 	<div data-role="header">
 		<h1>Fry</h1>
 		<a href="#one" data-icon="home" class="ui-btn-left" data-iconpos="notext">vissza</a>
-		<a onclick="RendelesTarolasa()" data-icon="plus" class="ui-btn-right" data-iconpos="notext" style="display:none;" id="plusz">plusz</a>
+		<a onclick="storeOrder()" data-icon="plus" class="ui-btn-right" data-iconpos="notext" style="display:none;" id="plusz">plusz</a>
 	</div><!-- /header -->
 
 	<div role="main" class="content">
@@ -167,34 +292,46 @@ function showPlus() {
 </div><!-- /page two -->
 
 
+
+
+
+<!-- Start of second page: #three -->
+<div data-role="page" id="three">
+
+	<div data-role="header">
+		<h1>Fry</h1>
+		<a href="#one" data-icon="home" class="ui-btn-left" data-iconpos="notext">vissza</a>
+	</div><!-- /header -->
+
+	<div role="main" class="content">
+    
+	</div><!-- /content -->
+
+</div><!-- /page two -->
+
+
+
+
 <script type="text/javascript">
 
-//feltölti a fieldset-et radio és label tagekkel a tömböknek megfelelően
-function fieldsetFill(name) {
-  var html_tmp = '';
-  $.each(window[name], function( index, value ) {
-    $("#"+name).controlgroup("container").append('<input name="' + name + '" id="' + name + index + '" value="' + index + '" type="radio"><label for="' + name + index + '">' + value + '</label>')
-  ;
-  });
-  $("#"+name).enhanceWithin().controlgroup("refresh");
-}
+  var ids = '';
 
 $( document ).ready(function() {
-  //felhasználónév és jelszó tárolása
-  window.page = window.localStorage.getItem("page");
-  $.mobile.changePage(window.page);
-//  $("#page").val(window.page);
-  
+
+
+  window.filled = 0;
+
   window.tomb = new Array();
+  window.tombr = new Array();
 
 	window.sos = new Array('Sima','Sós');
-  fieldsetFill('sos');
-  
-	window.meret = new Array('Kicsi','Nagy');
-  fieldsetFill('meret');
-  
+  window.meret = new Array('Kicsi','Nagy');
 	window.kaja = new Array('Krumpli','Fry & Fly','Funky','Frips');
-  fieldsetFill('kaja');
+
+  //amennyiben van tárolt oldal akkor ugrás oda
+  if (window.localStorage.getItem("page")!='') {
+    Store(window.localStorage.getItem("page"));
+  }
 
 //  window.plugin.backgroundMode.enable();
 });
