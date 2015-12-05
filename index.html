@@ -33,10 +33,10 @@
 function fieldsetFill(name) {
   alert('fieldsetFill fut');
   var html_tmp = '';
-  var klikk = '';
+//  var klikk = '';
   $.each(window[name], function( index, value ) {
     if (name == 'kaja') { klikk = 'onClick="showPlus();" ' }
-    $("#"+name).controlgroup("container").append('<input name="' + name + '" id="' + name + index + '" value="' + index + '" ' + klikk + 'type="radio"><label for="' + name + index + '">' + value + '</label>')
+    $("#"+name).controlgroup("container").append('<input name="' + name + '" id="' + name + index + '" value="' + index + '" type="radio"><label for="' + name + index + '">' + value + '</label>')
   ;
   });
   $("#"+name).enhanceWithin().controlgroup("refresh");
