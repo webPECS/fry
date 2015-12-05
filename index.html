@@ -65,11 +65,16 @@ function sendOrder() {
   $("#rendeles").hide();
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_send.php',
-	  type: 'POST',
+	  type: 'GET',
 //	  dataType: 'jsonp',
 //	  jsonpCallback: 'jsonCallback',
 	  data: { tomb: window.tomb }
-	});
+	}).done(function() {
+    alert( "success" );
+  })
+  .fail(function() {
+    alert( "error" );
+  });
   window.tomb.length = 0;
   $.mobile.loading('hide');  
 }
@@ -80,7 +85,7 @@ function readOrder() {
   var ujtomb = new Array;
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_read.php',
-	  type: 'POST',
+	  type: 'GET',
 	  dataType: 'jsonp',
 	  data: { ids: ids },    
 	  jsonpCallback: 'jsonCallback',
