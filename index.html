@@ -223,6 +223,7 @@ function storeOrder() {
 
 function Store(page) {
   window.page = page;
+  alert('itt még jó: ' + page);
   window.localStorage.setItem("page", window.page);
   $.mobile.changePage(window.page);
   if (page=='#three') {
