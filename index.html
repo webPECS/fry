@@ -66,15 +66,14 @@ function sendOrder() {
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_send.php',
 	  type: 'POST',
-	  dataType: 'jsonp',
-	  jsonpCallback: 'jsonCallback',
-	  data: { tomb: window.tomb }
-	}).done(function() {
-    alert( "success" );
-  })
-  .fail(function(textStatus) {
-    alert( "Request failed: " + textStatus );
-  });
+//  dataType: 'jsonp',
+//	  jsonpCallback: 'jsonCallback',
+	  data: { tomb: window.tomb },
+    error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+      }
+	});
   window.tomb.length = 0;
   $.mobile.loading('hide');  
 }
@@ -108,9 +107,12 @@ function readOrder() {
 // nem jön vissza semmi (null)
       }
     }
-	}).fail(function(textStatus) {
-    alert( "Request failed: " + textStatus );
-  });
+    ,
+    error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+      }
+	});
 
 }
 
