@@ -22,6 +22,7 @@
         permission on your app, which PhoneGap requires.
     -->
     <preference name="permissions" value="none"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Customize your app and platform with the preference element. -->
     <preference name="phonegap-version"           value="cli-5.2.0" />      <!-- all: current version of PhoneGap -->
@@ -60,6 +61,6 @@
 
 
     <access origin="*" /> <!-- allow local pages -->
-    <access origin="*://webpecs.hu/*" />
+    <access origin="http://www.webpecs.hu/fry/" />
 
 </widget>

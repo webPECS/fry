@@ -31,7 +31,6 @@
 
 //feltölti a fieldset-et radio és label tagekkel a tömböknek megfelelően
 function fieldsetFill(name) {
-  alert('fieldsetFill fut');
   var html_tmp = '';
   $.each(window[name], function( index, value ) {
     $("#"+name).controlgroup("container").append('<input name="' + name + '" id="' + name + index + '" value="' + index + '" type="radio"><label for="' + name + index + '">' + value + '</label>')
@@ -61,6 +60,7 @@ function fieldsetFill(name) {
 
 
 function sendOrder() {
+  alert('sendorder fut');
   $.mobile.loading( 'show');
   $("#rendeles").hide();
 	$.ajax({
@@ -96,9 +96,8 @@ function readOrder() {
           }
           ids += value[5] + ',';
         });
-//        	window.tombr.push(ujtomb);
-        	window.tombr.push(ujtomb);
-          console.log(window.tombr);
+       	window.tombr.push(ujtomb);
+        console.log(window.tombr);
        listOrder();        
       } else {
 // nem jön vissza semmi (null)
@@ -229,7 +228,6 @@ function storeOrder() {
 
 
 function Store(page) {
-  alert('Store fut');
   window.page = page;
   window.localStorage.setItem("page", window.page);
   $.mobile.changePage(window.page);
@@ -251,7 +249,6 @@ function Store(page) {
 
 
 function showPlus() {
-  alert('showplus fut');
 	$("#plusz").show();
 }
 
