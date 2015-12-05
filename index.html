@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="themes/jquery.mobile.structure-1.4.5.min.css" />
 	<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
     
-  <script type="text/javascript" src="phonegap.js"></script>
+<!--  <script type="text/javascript" src="phonegap.js"></script> -->
 	<script src="scripts/jquery-1.11.1.min.js"></script>
 
   <script>
@@ -18,6 +18,15 @@
       $.mobile.allowCrossDomainPages = true;
     });
   </script>    
+
+
+  <script>
+    $(document).bind('mobileinit',function(){
+        $.mobile.changePage.defaults.changeHash = false;
+        $.mobile.hashListeningEnabled = false;
+        $.mobile.pushStateEnabled = false;
+    });
+  </script>
     
 	<script src="scripts/jquery.mobile-1.4.5.min.js"></script>
     
@@ -329,9 +338,9 @@ $( document ).ready(function() {
 	window.kaja = new Array('Krumpli','Fry & Fly','Funky','Frips');
 
   //amennyiben van tárolt oldal akkor ugrás oda
-  if (window.localStorage.getItem("page")!='') {
-    Store(window.localStorage.getItem("page"));
-  }
+//  if (window.localStorage.getItem("page")!='') {
+//    Store(window.localStorage.getItem("page"));
+//  }
 
 //  window.plugin.backgroundMode.enable();
 });
