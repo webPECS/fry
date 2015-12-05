@@ -33,13 +33,16 @@
 function fieldsetFill(name) {
   alert('fieldsetFill fut');
   var html_tmp = '';
-//  var klikk = '';
   $.each(window[name], function( index, value ) {
-//    if (name == 'kaja') { klikk = 'onClick="showPlus();" ' }
     $("#"+name).controlgroup("container").append('<input name="' + name + '" id="' + name + index + '" value="' + index + '" type="radio"><label for="' + name + index + '">' + value + '</label>')
   ;
   });
   $("#"+name).enhanceWithin().controlgroup("refresh");
+
+  if (name == 'kaja') { 
+    $("input[name=kaja]").click(showPlus);   
+  }
+
 }
 
 
@@ -350,7 +353,10 @@ $( document ).ready(function() {
 	document.addEventListener("backbutton", Exit, false);  
 
   //amennyiben van tárolt oldal akkor ugrás oda
-  if (window.localStorage.getItem("page")!='') {
+  if (localStorage.getItem("page") === null) {
+    //nincs page tárolva
+  } else {
+    //van page tárolva
     Store(window.localStorage.getItem("page"));
   }
 
