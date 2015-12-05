@@ -14,7 +14,7 @@
 	<script src="scripts/jquery-1.11.1.min.js"></script>
 
   <script>
-    $( document ).on( "mobileinit", function() {
+    $( document ).bind( "mobileinit", function() {
       $.mobile.allowCrossDomainPages = true;
       $.mobile.changePage.defaults.changeHash = false;
       $.mobile.hashListeningEnabled = false;
@@ -35,7 +35,7 @@ function fieldsetFill(name) {
   var html_tmp = '';
 //  var klikk = '';
   $.each(window[name], function( index, value ) {
-    if (name == 'kaja') { klikk = 'onClick="showPlus();" ' }
+//    if (name == 'kaja') { klikk = 'onClick="showPlus();" ' }
     $("#"+name).controlgroup("container").append('<input name="' + name + '" id="' + name + index + '" value="' + index + '" type="radio"><label for="' + name + index + '">' + value + '</label>')
   ;
   });
@@ -350,9 +350,9 @@ $( document ).ready(function() {
 	document.addEventListener("backbutton", Exit, false);  
 
   //amennyiben van tárolt oldal akkor ugrás oda
-  if (window.localStorage.getItem("page")!='') {
-    Store(window.localStorage.getItem("page"));
-  }
+//  if (window.localStorage.getItem("page")!='') {
+//    Store(window.localStorage.getItem("page"));
+//  }
 
 //  window.plugin.backgroundMode.enable();
 });
