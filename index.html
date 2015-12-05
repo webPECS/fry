@@ -65,9 +65,9 @@ function sendOrder() {
   $("#rendeles").hide();
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_send.php',
-	  type: 'GET',
-//	  dataType: 'jsonp',
-//	  jsonpCallback: 'jsonCallback',
+	  type: 'POST',
+	  dataType: 'jsonp',
+	  jsonpCallback: 'jsonCallback',
 	  data: { tomb: window.tomb }
 	}).done(function() {
     alert( "success" );
