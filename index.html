@@ -72,8 +72,8 @@ function sendOrder() {
 	}).done(function() {
     alert( "success" );
   })
-  .fail(function() {
-    alert( "error" );
+  .fail(function(textStatus) {
+    alert( "Request failed: " + textStatus );
   });
   window.tomb.length = 0;
   $.mobile.loading('hide');  
@@ -108,7 +108,10 @@ function readOrder() {
 // nem jön vissza semmi (null)
       }
     }
-	});
+	}).fail(function(textStatus) {
+    alert( "Request failed: " + textStatus );
+  });
+
 }
 
 
