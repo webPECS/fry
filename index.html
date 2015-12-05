@@ -10,21 +10,15 @@
 	<link rel="stylesheet" href="themes/jquery.mobile.structure-1.4.5.min.css" />
 	<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
     
-<!--  <script type="text/javascript" src="phonegap.js"></script> -->
+  <script type="text/javascript" src="phonegap.js"></script>
 	<script src="scripts/jquery-1.11.1.min.js"></script>
 
   <script>
     $( document ).on( "mobileinit", function() {
       $.mobile.allowCrossDomainPages = true;
-    });
-  </script>    
-
-
-  <script>
-    $(document).bind('mobileinit',function(){
-        $.mobile.changePage.defaults.changeHash = false;
-        $.mobile.hashListeningEnabled = false;
-        $.mobile.pushStateEnabled = false;
+      $.mobile.changePage.defaults.changeHash = false;
+      $.mobile.hashListeningEnabled = false;
+      $.mobile.pushStateEnabled = false;
     });
   </script>
     
@@ -222,6 +216,7 @@ function storeOrder() {
 
 
 function Store(page) {
+  navigator.notification.beep(1);
   alert('itt még jó: ' + page);
   window.page = page;
   window.localStorage.setItem("page", window.page);
@@ -329,14 +324,14 @@ function showPlus() {
 $( document ).ready(function() {
 
 
-  window.filled = 0;
+//  window.filled = 0;
 
-  window.tomb = new Array();
-  window.tombr = new Array();
+//  window.tomb = new Array();
+//  window.tombr = new Array();
 
-	window.sos = new Array('Sima','Sós');
-  window.meret = new Array('Kicsi','Nagy');
-	window.kaja = new Array('Krumpli','Fry & Fly','Funky','Frips');
+//	window.sos = new Array('Sima','Sós');
+//  window.meret = new Array('Kicsi','Nagy');
+//	window.kaja = new Array('Krumpli','Fry & Fly','Funky','Frips');
 
   //amennyiben van tárolt oldal akkor ugrás oda
 //  if (window.localStorage.getItem("page")!='') {
