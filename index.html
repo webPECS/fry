@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="themes/jquery.mobile.structure-1.4.5.min.css" />
 	<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
     
-<!--  <script type="text/javascript" src="phonegap.js"></script> -->
+  <script type="text/javascript" src="phonegap.js"></script> 
 	<script src="scripts/jquery-1.11.1.min.js"></script>
 
   <script>
@@ -31,6 +31,7 @@
 
 //feltölti a fieldset-et radio és label tagekkel a tömböknek megfelelően
 function fieldsetFill(name) {
+  alert('fieldsetFill fut');
   var html_tmp = '';
   var klikk = '';
   $.each(window[name], function( index, value ) {
@@ -225,6 +226,7 @@ function storeOrder() {
 
 
 function Store(page) {
+  alert('Store fut');
   window.page = page;
   window.localStorage.setItem("page", window.page);
   $.mobile.changePage(window.page);
