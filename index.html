@@ -48,8 +48,8 @@ function fieldsetFill(name) {
 	
 	
   function showAlert() {
-//      navigator.notification.beep(1);
-//      navigator.notification.vibrate(1000);
+      navigator.notification.beep(1);
+      navigator.notification.vibrate(1000);
   }
 
 
@@ -193,6 +193,13 @@ function printOrder() {
 }
 
 
+function Exit() {
+  if (window.page == '#one') {
+		navigator.app.exitApp();
+  } else {
+    Store('#one');
+  }
+}
 
 
 
@@ -217,7 +224,6 @@ function storeOrder() {
 
 function Store(page) {
   window.page = page;
-  alert('itt még jó: ' + page);  
   window.localStorage.setItem("page", window.page);
   $.mobile.changePage(window.page);
   if (page=='#three') {
@@ -238,6 +244,7 @@ function Store(page) {
 
 
 function showPlus() {
+  alert('showplus fut');
 	$("#plusz").show();
 }
 
@@ -281,7 +288,7 @@ function showPlus() {
 	<div role="main" class="content">
 
     <input name="darab" id="darab" min="1" max="10" value="1" type="range">
-    <fieldset data-role="controlgroup" onClick="showPlus()" id="kaja"></fieldset>
+    <fieldset data-role="controlgroup" onClick="showPlus();" id="kaja"></fieldset>
     <fieldset data-role="controlgroup" data-type="horizontal" id="sos"></fieldset>
     <fieldset data-role="controlgroup" data-type="horizontal" id="meret"></fieldset>
 
@@ -318,9 +325,13 @@ function showPlus() {
 
 <script type="text/javascript">
 
-  var ids = '';
+    var ids = '';
 
-$( document ).ready(function() {
+function onDeviceReady() {
+  
+
+
+//$( document ).ready(function() {
 
 
   window.filled = 0;
@@ -331,11 +342,13 @@ $( document ).ready(function() {
 	window.sos = new Array('Sima','Sós');
   window.meret = new Array('Kicsi','Nagy');
 	window.kaja = new Array('Krumpli','Fry & Fly','Funky','Frips');
+  
+	document.addEventListener("backbutton", BackToIndex, false);  
 
   //amennyiben van tárolt oldal akkor ugrás oda
-//  if (window.localStorage.getItem("page")!='') {
-//    Store(window.localStorage.getItem("page"));
-//  }
+  if (window.localStorage.getItem("page")!='') {
+    Store(window.localStorage.getItem("page"));
+  }
 
 //  window.plugin.backgroundMode.enable();
 });
