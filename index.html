@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="themes/jquery.mobile.structure-1.4.5.min.css" />
 	<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
     
-  <script type="text/javascript" src="phonegap.js"></script>
+<!--  <script type="text/javascript" src="phonegap.js"></script> -->
 	<script src="scripts/jquery-1.11.1.min.js"></script>
 
   <script>
@@ -32,8 +32,10 @@
 //feltölti a fieldset-et radio és label tagekkel a tömböknek megfelelően
 function fieldsetFill(name) {
   var html_tmp = '';
+  var klikk = '';
   $.each(window[name], function( index, value ) {
-    $("#"+name).controlgroup("container").append('<input name="' + name + '" id="' + name + index + '" value="' + index + '" type="radio"><label for="' + name + index + '">' + value + '</label>')
+    if (name == 'kaja') { klikk = 'onClick="showPlus();" ' }
+    $("#"+name).controlgroup("container").append('<input name="' + name + '" id="' + name + index + '" value="' + index + '" ' + klikk + 'type="radio"><label for="' + name + index + '">' + value + '</label>')
   ;
   });
   $("#"+name).enhanceWithin().controlgroup("refresh");
@@ -288,7 +290,7 @@ function showPlus() {
 	<div role="main" class="content">
 
     <input name="darab" id="darab" min="1" max="10" value="1" type="range">
-    <fieldset data-role="controlgroup" onClick="showPlus();" id="kaja"></fieldset>
+    <fieldset data-role="controlgroup" id="kaja"></fieldset>
     <fieldset data-role="controlgroup" data-type="horizontal" id="sos"></fieldset>
     <fieldset data-role="controlgroup" data-type="horizontal" id="meret"></fieldset>
 
@@ -327,11 +329,11 @@ function showPlus() {
 
     var ids = '';
 
-function onDeviceReady() {
+//function onDeviceReady() {
   
 
 
-//$( document ).ready(function() {
+$( document ).ready(function() {
 
 
   window.filled = 0;
@@ -343,7 +345,7 @@ function onDeviceReady() {
   window.meret = new Array('Kicsi','Nagy');
 	window.kaja = new Array('Krumpli','Fry & Fly','Funky','Frips');
   
-	document.addEventListener("backbutton", BackToIndex, false);  
+	document.addEventListener("backbutton", Exit, false);  
 
   //amennyiben van tárolt oldal akkor ugrás oda
   if (window.localStorage.getItem("page")!='') {
