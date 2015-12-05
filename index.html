@@ -222,8 +222,8 @@ function storeOrder() {
 
 
 function Store(page) {
-  window.page = page;
   alert('itt még jó: ' + page);
+  window.page = page;
   window.localStorage.setItem("page", window.page);
   $.mobile.changePage(window.page);
   if (page=='#three') {
@@ -264,9 +264,9 @@ function showPlus() {
     
     <p>Kérlek válassz funkciót:</p>
     
-    <a data-role="button" data-icon="action" onClick="Store('#two');">Rendelés leadása</a>
+    <a data-role="button" data-icon="action" onClick="Store('two');">Rendelés leadása</a>
 
-    <a data-role="button" data-icon="bullets" onClick="Store('#three');">Beérkező rendelések</a>
+    <a data-role="button" data-icon="bullets" onClick="Store('three');">Beérkező rendelések</a>
     
 	</div><!-- /content -->
 
