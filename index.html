@@ -84,7 +84,7 @@ function readOrder() {
   var ujtomb = new Array;
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_read.php',
-	  type: 'GET',
+	  type: 'POST',
 	  dataType: 'jsonp',
 	  data: { ids: ids },    
 	  jsonpCallback: 'jsonCallback',

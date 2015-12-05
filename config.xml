@@ -46,6 +46,7 @@
     <gap:plugin name="org.apache.cordova.dialogs" />
     <gap:plugin name="org.apache.cordova.vibration" />
     <gap:plugin name="org.apache.cordova.network-information" />
+    <gap:plugin name="cordova-plugin-whitelist" source="npm" />
 
     <!-- Third party plugins -->
     <gap:plugin name="de.appplant.cordova.plugin.background-mode" />
@@ -63,5 +64,7 @@
 
     <access origin="http://*.webpecs.hu" />
     <access origin="*" /> <!-- allow local pages -->
+    <allow-intent href="*" />
+    <allow-navigation href="*" />
 
 </widget>
