@@ -60,10 +60,12 @@ function sendOrder() {
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_send.php',
 	  type: 'POST',
-	  data: { tomb: window.tomb }
+	  data: { tomb: window.tomb },
+    success: function() {
+      $.mobile.loading('hide');
+      window.tomb.length = 0;
+    }
 	});
-  window.tomb.length = 0;
-  $.mobile.loading('hide');  
 }
 
 
@@ -104,7 +106,8 @@ function readOrder() {
 
 
 	window.tombr.push(JSON.parse("[" + ujstring + "]"));
-  listOrder();        
+  showAlert();
+  listOrder();
         
         
       } else {
@@ -127,11 +130,13 @@ function deleteFromOrder(del0,del1,del2,del3) {
 
 
 function confirmOrder(index) {
+  $.mobile.loading( 'show');  
   var confirm_ids = '';
   
   $.each(window.tombr[index], function (index, value) {
     confirm_ids += value[4] + ',';
   });
+  
     
   if (confirm_ids!='') {
   	$.ajax({
@@ -139,9 +144,16 @@ function confirmOrder(index) {
 	    type: 'POST',
   	  data: { ids: confirm_ids },
   	  success: function(data) {
+        
+        if (window.tombr.length==1) {
+          $("#three .content").html('').trigger('create');
+        }
+
         ids = '';
         tombr = [];
         readOrder();
+        $.mobile.loading( 'hide');
+        
       }
 	  });
   }
@@ -386,7 +398,7 @@ $( document ).ready(function() {
     Store(window.localStorage.getItem("page"));
   }
 
-//  window.plugin.backgroundMode.enable();
+  window.plugin.backgroundMode.enable();
 });
 
 </script>
