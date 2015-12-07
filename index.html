@@ -46,11 +46,6 @@ function fieldsetFill(name) {
 
 
 
-  // alert dialog dismissed
-  function alertDismissed() {
-      intervalId = setInterval('beolvasas()',15*1000);
-  }
-	
 	
   function showAlert() {
       navigator.notification.beep(1);
@@ -60,19 +55,12 @@ function fieldsetFill(name) {
 
 
 function sendOrder() {
-  alert('sendorder fut');
   $.mobile.loading( 'show');
   $("#rendeles").hide();
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_send.php',
 	  type: 'POST',
-//  dataType: 'jsonp',
-//	  jsonpCallback: 'jsonCallback',
-	  data: { tomb: window.tomb },
-    error: function (xhr, ajaxOptions, thrownError) {
-        alert(xhr.status);
-        alert(thrownError);
-      }
+	  data: { tomb: window.tomb }
 	});
   window.tomb.length = 0;
   $.mobile.loading('hide');  
@@ -80,8 +68,10 @@ function sendOrder() {
 
 
 function readOrder() {
+  alert('readOrder fut');
   var timestamp = '';
-  var ujtomb = new Array;
+  var ujtomb = [];
+//  return;
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_read.php',
 	  type: 'POST',
@@ -92,26 +82,37 @@ function readOrder() {
       if (data.tomb != null) {
         $.each(data.tomb, function (index, value) {
           //egy rendelés
+           console.log(value[4]);
           if (timestamp==value[4]) {
-            ujtomb.push([value[0],value[1],value[2],value[3]]);
+//            ujtomb.push([value[0],value[1],value[2],value[3],value[5]]);
           } else {
-            ujtomb.push([value[0],value[1],value[2],value[3]]);
+//            ujtomb.push([value[0],value[1],value[2],value[3],value[5]]);
             timestamp = value[4];
+            if (ujtomb.length!=0) {
+//            console.log(ujtomb);
+             	window.tombr.push([[value[0],value[1],value[2],value[3],value[5]]]);
+              alert(ujtomb.length + ' : ' + window.tombr.length);
+              console.log(ujtomb);
+              //tömb törlése
+//            ujtomb.length = 0;
+              while(ujtomb.length > 0) { ujtomb.pop(); }
+//            listOrder();        
+            }
           }
           ids += value[5] + ',';
+//         console.log(ids);
         });
-       	window.tombr.push(ujtomb);
-        console.log(window.tombr);
-       listOrder();        
+
+
+// 	window.tombr.push(ujtomb);
+  console.log(window.tombr);
+  listOrder();        
+        
+        
       } else {
 // nem jön vissza semmi (null)
       }
     }
-    ,
-    error: function (xhr, ajaxOptions, thrownError) {
-        alert(xhr.status);
-        alert(thrownError);
-      }
 	});
 
 }
@@ -130,7 +131,6 @@ function deleteFromOrder(del0,del1,del2,del3) {
 function listOrder() {
   var html_tmp = '';
 
-//  console.log(ujtomb);
       
   $.each(window.tombr, function (index, value) {
     
@@ -140,7 +140,7 @@ function listOrder() {
 
   $.each(value, function (ii, vv) {
 
-    console.log(vv);
+//  console.log(vv);
     
     html_tmp += '<li>';
     $.each(vv, function (i, v) { 
@@ -163,7 +163,8 @@ function listOrder() {
 
     });
     
-    html_tmp += '<li><a onclick="confirmOrder()">Átveszem</a></li>';  
+    html_tmp += '<li><a onclick="confirmOrder(' + index + ')">Átveszem</a></li>';  
+//  console.log(index);
     html_tmp += '</ul>';
     html_tmp += '</div>';
 
@@ -223,7 +224,6 @@ function storeOrder() {
   //ha már van ilyen típus, akkor darabszám növelése
   $.each(window.tomb, function (index, value) {
     if (value[1] == $('input[name=kaja]:checked').val() && value[2] == $('input[name=sos]:checked').val() && value[3] == $('input[name=meret]:checked').val()) {
-      console.log(window.tomb[index][0],value[0]);
       window.tomb[index][0] = parseInt(window.tomb[index][0]) + parseInt($("#darab").val());
       count++;
     } 
@@ -243,17 +243,20 @@ function Store(page) {
   $.mobile.changePage(window.page);
   if (page=='#three') {
     readOrder();
-    intervalId = setInterval('readOrder()',10*1000);
-  }  else if (page=='#two') { 
-    if (window.filled==0) {
+//    intervalId = setInterval('readOrder()',10*1000);
+  }  else { 
+
+    if (window.filled==0 && page=='#two') {
       fieldsetFill('sos');
       fieldsetFill('meret');
       fieldsetFill('kaja');
       window.filled = 1;
     }
+
     if (typeof intervalId != 'undefined') {
       clearInterval(intervalId);
     }
+
   }
 }
 
@@ -353,7 +356,7 @@ $( document ).ready(function() {
   window.tomb = new Array();
   window.tombr = new Array();
 
-	window.sos = new Array('Sima','Sós');
+	window.sos = new Array('Sima','Fűszersós');
   window.meret = new Array('Kicsi','Nagy');
 	window.kaja = new Array('Krumpli','Fry & Fly','Funky','Frips');
   
