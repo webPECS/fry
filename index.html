@@ -271,7 +271,7 @@ function Store(page) {
   $.mobile.changePage(window.page);
   if (page=='#three') {
     readOrder();
-//    intervalId = setInterval('readOrder()',10*1000);
+    intervalId = setInterval('readOrder()',10*1000);
   }  else { 
 
     if (window.filled==0 && page=='#two') {
