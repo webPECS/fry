@@ -48,8 +48,8 @@ function fieldsetFill(name) {
 
 	
   function showAlert() {
-      navigator.notification.beep(1);
-      navigator.notification.vibrate(1000);
+      navigator.notification.beep(2);
+      navigator.notification.vibrate(2000);
   }
 
 
@@ -69,7 +69,7 @@ function sendOrder() {
 }
 
 
-function readOrder() {
+function readOrder(func) {
   var timestamp = '';
   var ujstring = '';
   var ujtomb = [];
@@ -106,7 +106,9 @@ function readOrder() {
 
 
 	window.tombr.push(JSON.parse("[" + ujstring + "]"));
-  showAlert();
+  if (func!='confirm') {
+    showAlert();
+  }
   listOrder();
         
         
@@ -151,7 +153,7 @@ function confirmOrder(index) {
 
         ids = '';
         tombr = [];
-        readOrder();
+        readOrder('confirm');
         $.mobile.loading( 'hide');
         
       }
@@ -271,7 +273,7 @@ function Store(page) {
   $.mobile.changePage(window.page);
   if (page=='#three') {
     readOrder();
-    intervalId = setInterval('readOrder()',10*1000);
+    intervalId = setInterval('readOrder()',20*1000);
   }  else { 
 
     if (window.filled==0 && page=='#two') {
