@@ -38,9 +38,9 @@ function fieldsetFill(name) {
   });
   $("#"+name).enhanceWithin().controlgroup("refresh");
 
-  if (name == 'kaja') { 
-    $("input[name=kaja]").click(showPlus);
-  }
+//  if (name == 'kaja') { 
+    $("input[name=" + name + "]").click(showPlus);
+//}
 
 }
 
@@ -292,7 +292,9 @@ function Store(page) {
 
 
 function showPlus() {
-	$("#plusz").show();
+  if ($("input[name=kaja]").is(':checked') && $("input[name=sos]").is(':checked') && $("input[name=meret]").is(':checked')) {
+  	$("#plusz").show();
+  }
 }
 
 	
