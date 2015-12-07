@@ -39,7 +39,7 @@ function fieldsetFill(name) {
   $("#"+name).enhanceWithin().controlgroup("refresh");
 
   if (name == 'kaja') { 
-    $("input[name=kaja]").click(showPlus);   
+    $("input[name=kaja]").click(showPlus);
   }
 
 }
@@ -68,10 +68,11 @@ function sendOrder() {
 
 
 function readOrder() {
-  alert('readOrder fut');
   var timestamp = '';
+  var ujstring = '';
   var ujtomb = [];
-//  return;
+  var x = 0;
+
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_read.php',
 	  type: 'POST',
@@ -82,30 +83,27 @@ function readOrder() {
       if (data.tomb != null) {
         $.each(data.tomb, function (index, value) {
           //egy rendelés
-           console.log(value[4]);
           if (timestamp==value[4]) {
-//            ujtomb.push([value[0],value[1],value[2],value[3],value[5]]);
+              x++;
+              if (x>1) { ujstring += ","; }
+              ujstring += "["+ value[0] + "," + value[1] + "," + value[2] + "," + value[3] + "," + value[5] + "]";
           } else {
-//            ujtomb.push([value[0],value[1],value[2],value[3],value[5]]);
-            timestamp = value[4];
-            if (ujtomb.length!=0) {
-//            console.log(ujtomb);
-             	window.tombr.push([[value[0],value[1],value[2],value[3],value[5]]]);
-              alert(ujtomb.length + ' : ' + window.tombr.length);
-              console.log(ujtomb);
-              //tömb törlése
-//            ujtomb.length = 0;
-              while(ujtomb.length > 0) { ujtomb.pop(); }
-//            listOrder();        
+
+            if (ujstring!='') {
+             	window.tombr.push(JSON.parse("[" + ujstring + "]"));
+              ujstring = '';
+              x=0;
             }
+              timestamp = value[4];
+              ujstring += "["+ value[0] + "," + value[1] + "," + value[2] + "," + value[3] + "," + value[5] + "]";
+              x++;
           }
+
           ids += value[5] + ',';
-//         console.log(ids);
         });
 
 
-// 	window.tombr.push(ujtomb);
-  console.log(window.tombr);
+	window.tombr.push(JSON.parse("[" + ujstring + "]"));
   listOrder();        
         
         
@@ -128,19 +126,38 @@ function deleteFromOrder(del0,del1,del2,del3) {
 }
 
 
+function confirmOrder(index) {
+  var confirm_ids = '';
+  
+  $.each(window.tombr[index], function (index, value) {
+    confirm_ids += value[4] + ',';
+  });
+    
+  if (confirm_ids!='') {
+  	$.ajax({
+	    url: 'http://www.webpecs.hu/fry/rendeles_confirm.php',
+	    type: 'POST',
+  	  data: { ids: confirm_ids },
+  	  success: function(data) {
+        ids = '';
+        tombr = [];
+        readOrder();
+      }
+	  });
+  }
+}
+
+
 function listOrder() {
   var html_tmp = '';
 
-      
   $.each(window.tombr, function (index, value) {
-    
 
     html_tmp += '<div data-role="collapsible" data-iconpos="right"><h4>Új rendelés</h4>';
     html_tmp += '<ul data-role="listview">';
 
   $.each(value, function (ii, vv) {
 
-//  console.log(vv);
     
     html_tmp += '<li>';
     $.each(vv, function (i, v) { 
@@ -164,7 +181,6 @@ function listOrder() {
     });
     
     html_tmp += '<li><a onclick="confirmOrder(' + index + ')">Átveszem</a></li>';  
-//  console.log(index);
     html_tmp += '</ul>';
     html_tmp += '</div>';
 
