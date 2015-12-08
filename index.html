@@ -83,7 +83,7 @@ function sendOrder() {
   $.mobile.loading( 'show');
   $("#rendeles").hide();
 
-  if (!checkConnection()) return;
+  checkConnection();
   
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_send.php',
@@ -99,14 +99,12 @@ function sendOrder() {
 
 function readOrder(func) {
 
-  alert('readOrder fut');
-  
   var timestamp = '';
   var ujstring = '';
   var ujtomb = [];
   var x = 0;
 
-  if (checkConnection() !== 1) { return; }
+  checkConnection();
   
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_read.php',
@@ -138,6 +136,7 @@ function readOrder(func) {
         });
 
 
+  console.log(ujstring);
 	window.tombr.push(JSON.parse("[" + ujstring + "]"));
   if (func!='confirm') {
     showAlert();
@@ -175,7 +174,8 @@ function confirmOrder(index) {
     
   if (confirm_ids!='') {
 
-    if (!checkConnection()) return;
+    checkConnection();
+    
   	$.ajax({
 	    url: 'http://www.webpecs.hu/fry/rendeles_confirm.php',
 	    type: 'POST',
