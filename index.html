@@ -48,7 +48,8 @@ function checkConnection() {
       'Hiba!',                 // title
       'Kilépés'               // buttonName
     );
-     return false;
+    alert('false');
+    return false;
   }
 }
 
@@ -104,7 +105,7 @@ function readOrder(func) {
   var ujtomb = [];
   var x = 0;
 
-  if (!checkConnection()) return false;
+  if (checkConnection() !== 1) { return false; }
   
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_read.php',
@@ -411,10 +412,9 @@ function showPlus() {
 
     var ids = '';
 
-function onDeviceReady() {
+//function onDeviceReady() {
 
-//$( document ).ready(function() {
-
+$( document ).ready(function() {
 
   window.filled = 0;
 
@@ -436,7 +436,7 @@ function onDeviceReady() {
   }
 
   window.plugin.backgroundMode.enable();
-};
+});
 
 </script>
 </body>
