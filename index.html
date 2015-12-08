@@ -36,6 +36,7 @@ function alertDismissed() {
     
 //ellenőrzi, hogy rendelkezésre áll-e wifi kapcsolat
 function checkConnection() {
+  alert('checkconn fut');
   var networkState = navigator.connection.type;
   if(networkState != window.Connection.WIFI || state != window.Connection.ETHERNET) {
     navigator.notification.beep(1);
@@ -46,8 +47,10 @@ function checkConnection() {
       'Hiba!',                 // title
       'Kilépés'               // buttonName
     );
+     alert('false');
     return false;
   } else {
+    alert('true');
     return true;
   }
 }
