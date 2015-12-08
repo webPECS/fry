@@ -29,6 +29,28 @@
 <script type="text/javascript">
 
 
+function alertDismissed() {
+ 	navigator.app.exitApp();
+}
+    
+    
+//ellenőrzi, hogy rendelkezésre áll-e wifi kapcsolat
+function checkConnection() {
+  var networkState = navigator.connection.type;
+  if(networkState == window.Connection.WIFI || state == window.Connection.ETHERNET) {
+    navigator.notification.beep(1);
+    navigator.notification.vibrate(1000);
+    navigator.notification.alert(
+      'Nincs WiFi kapcsolat!',   // message
+      alertDismissed,           // callback
+      'Hiba!',                 // title
+      'Kilépés'               // buttonName
+    );
+  }
+}
+
+
+
 //feltölti a fieldset-et radio és label tagekkel a tömböknek megfelelően
 function fieldsetFill(name) {
   var html_tmp = '';
@@ -57,6 +79,8 @@ function fieldsetFill(name) {
 function sendOrder() {
   $.mobile.loading( 'show');
   $("#rendeles").hide();
+
+  checkConnection();
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_send.php',
 	  type: 'POST',
@@ -75,6 +99,7 @@ function readOrder(func) {
   var ujtomb = [];
   var x = 0;
 
+  checkConnection();
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_read.php',
 	  type: 'POST',
@@ -141,6 +166,7 @@ function confirmOrder(index) {
   
     
   if (confirm_ids!='') {
+    checkConnection();
   	$.ajax({
 	    url: 'http://www.webpecs.hu/fry/rendeles_confirm.php',
 	    type: 'POST',
