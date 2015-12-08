@@ -36,9 +36,10 @@ function alertDismissed() {
     
 //ellenőrzi, hogy rendelkezésre áll-e wifi kapcsolat
 function checkConnection() {
+  var success;
   var networkState = navigator.connection.type;
   if(networkState == window.Connection.WIFI) {
-    return true;
+    success = true;
   } else {
     navigator.notification.beep(1);
     navigator.notification.vibrate(1000);
@@ -48,9 +49,10 @@ function checkConnection() {
       'Hiba!',                 // title
       'Kilépés'               // buttonName
     );
-    alert('false');
-    return false;
+    success = false;
   }
+  alert(success);
+  return success;
 }
 
 
@@ -105,7 +107,7 @@ function readOrder(func) {
   var ujtomb = [];
   var x = 0;
 
-  if (checkConnection() !== 1) { return false; }
+  if (checkConnection() == false) { alert('visszatért false'); }
   
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_read.php',
