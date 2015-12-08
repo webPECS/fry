@@ -36,10 +36,8 @@ function alertDismissed() {
     
 //ellenőrzi, hogy rendelkezésre áll-e wifi kapcsolat
 function checkConnection() {
-  alert('checkconn fut');
   var networkState = navigator.connection.type;
   if(networkState == window.Connection.WIFI) {
-    alert('true');
     return true;
   } else {
     navigator.notification.beep(1);
@@ -50,8 +48,7 @@ function checkConnection() {
       'Hiba!',                 // title
       'Kilépés'               // buttonName
     );
-     alert('false');
-    return false;
+     return false;
   }
 }
 
@@ -86,7 +83,7 @@ function sendOrder() {
   $.mobile.loading( 'show');
   $("#rendeles").hide();
 
-  checkConnection();
+  if (!checkConnection()) return false;
   
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_send.php',
@@ -107,7 +104,7 @@ function readOrder(func) {
   var ujtomb = [];
   var x = 0;
 
-  checkConnection();
+  if (!checkConnection()) return false;
   
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_read.php',
@@ -177,7 +174,7 @@ function confirmOrder(index) {
     
   if (confirm_ids!='') {
 
-    checkConnection();
+    if (!checkConnection()) return false;
     
   	$.ajax({
 	    url: 'http://www.webpecs.hu/fry/rendeles_confirm.php',
@@ -414,11 +411,9 @@ function showPlus() {
 
     var ids = '';
 
-//function onDeviceReady() {
-  
+function onDeviceReady() {
 
-
-$( document ).ready(function() {
+//$( document ).ready(function() {
 
 
   window.filled = 0;
@@ -441,7 +436,7 @@ $( document ).ready(function() {
   }
 
   window.plugin.backgroundMode.enable();
-});
+};
 
 </script>
 </body>
