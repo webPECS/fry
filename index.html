@@ -438,8 +438,10 @@ $( document ).ready(function() {
 	window.sos = new Array('Sima','Fűszersós');
   window.meret = new Array('Kicsi','Nagy');
 	window.kaja = new Array('Krumpli','Fry & Fly','Funky','Frips');
-  
+
+  document.addEventListener("deviceready", onDeviceReady, false);  
 	document.addEventListener("backbutton", Exit, false);  
+  
  });
 
 </script>
