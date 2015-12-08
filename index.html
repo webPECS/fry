@@ -37,7 +37,7 @@ function alertDismissed() {
 //ellenőrzi, hogy rendelkezésre áll-e wifi kapcsolat
 function checkConnection() {
   var networkState = navigator.connection.type;
-  if(networkState == window.Connection.WIFI || state == window.Connection.ETHERNET) {
+  if(networkState != window.Connection.WIFI || state != window.Connection.ETHERNET) {
     navigator.notification.beep(1);
     navigator.notification.vibrate(1000);
     navigator.notification.alert(
