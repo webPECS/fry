@@ -422,8 +422,6 @@ function onDeviceReady() {
     //van page tárolva
     Store(window.localStorage.getItem("page"));
   }
-
-  window.plugin.backgroundMode.enable();
 }
 
 
@@ -440,8 +438,11 @@ $( document ).ready(function() {
 	window.kaja = new Array('Krumpli','Fry & Fly','Funky','Frips');
 
   document.addEventListener("deviceready", onDeviceReady, false);  
+
 	document.addEventListener("backbutton", Exit, false);  
-  
+
+  window.plugin.backgroundMode.enable();
+    
  });
 
 </script>
