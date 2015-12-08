@@ -107,7 +107,7 @@ function readOrder(func) {
   var ujtomb = [];
   var x = 0;
 
-  if (checkConnection() == false) { alert('visszatért false'); }
+  if (checkConnection() == false) { alert('visszatért false'); return; }
   
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_read.php',
