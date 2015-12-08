@@ -98,12 +98,16 @@ function sendOrder() {
 
 
 function readOrder(func) {
+
+  alert('readOrder fut');
+  
   var timestamp = '';
   var ujstring = '';
   var ujtomb = [];
   var x = 0;
 
-  if (!checkConnection()) return;
+  if (checkConnection() !== 1) { return; }
+  
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_read.php',
 	  type: 'POST',
