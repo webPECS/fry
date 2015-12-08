@@ -51,7 +51,6 @@ function checkConnection() {
     );
     success = false;
   }
-  alert(success);
   return success;
 }
 
@@ -86,7 +85,7 @@ function sendOrder() {
   $.mobile.loading( 'show');
   $("#rendeles").hide();
 
-  if (!checkConnection()) return false;
+  if (checkConnection() == false) { return; }
   
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_send.php',
@@ -107,7 +106,7 @@ function readOrder(func) {
   var ujtomb = [];
   var x = 0;
 
-  if (checkConnection() == false) { alert('visszatért false'); return; }
+  if (checkConnection() == false) { return; }
   
 	$.ajax({
 	  url: 'http://www.webpecs.hu/fry/rendeles_read.php',
@@ -177,7 +176,7 @@ function confirmOrder(index) {
     
   if (confirm_ids!='') {
 
-    if (!checkConnection()) return false;
+    if (checkConnection() == false) { return; }
     
   	$.ajax({
 	    url: 'http://www.webpecs.hu/fry/rendeles_confirm.php',
@@ -412,9 +411,22 @@ function showPlus() {
 
 <script type="text/javascript">
 
-    var ids = '';
+ var ids = '';
 
-//function onDeviceReady() {
+
+function onDeviceReady() {
+ //amennyiben van tárolt oldal akkor ugrás oda
+  if (localStorage.getItem("page") === null) {
+    //nincs page tárolva
+  } else {
+    //van page tárolva
+    Store(window.localStorage.getItem("page"));
+  }
+
+  window.plugin.backgroundMode.enable();
+}
+
+
 
 $( document ).ready(function() {
 
@@ -428,17 +440,7 @@ $( document ).ready(function() {
 	window.kaja = new Array('Krumpli','Fry & Fly','Funky','Frips');
   
 	document.addEventListener("backbutton", Exit, false);  
-
-  //amennyiben van tárolt oldal akkor ugrás oda
-  if (localStorage.getItem("page") === null) {
-    //nincs page tárolva
-  } else {
-    //van page tárolva
-    Store(window.localStorage.getItem("page"));
-  }
-
-  window.plugin.backgroundMode.enable();
-});
+ });
 
 </script>
 </body>
