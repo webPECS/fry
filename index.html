@@ -74,10 +74,18 @@ function fieldsetFill(name) {
     navigator.notification.beep(1);
     navigator.notification.vibrate(1000);
 
+
+cordova.plugins.notification.local.schedule({
+    title: "New Message",
+    message: "Hi, are you ready? We are waiting."
+});
+
+
     if (window.plugin.backgroundMode.isActive()) {
-        window.plugin.backgroundMode.configure({
-        text:'Próba...'
-      });
+      alert('bg mód aktív');
+//        window.plugin.backgroundMode.configure({
+//        text:'Próba...'
+//      });
     }
 
   }
