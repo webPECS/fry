@@ -71,14 +71,15 @@ function fieldsetFill(name) {
 
 	
   function showAlert() {
-    if (cordova.plugins.backgroundMode.isActive()) {
-      cordova.plugins.backgroundMode.configure({
+    navigator.notification.beep(1);
+    navigator.notification.vibrate(1000);
+
+    if (window.plugin.backgroundMode.isActive()) {
+        window.plugin.backgroundMode.configure({
         text:'Próba...'
       });
     }
 
-    navigator.notification.beep(1);
-    navigator.notification.vibrate(1000);
   }
 
 
@@ -424,7 +425,6 @@ function onDeviceReady() {
     Store(window.localStorage.getItem("page"));
   }
   
-  cordova.plugins.backgroundMode.enable();  
 }
 
 
@@ -444,6 +444,8 @@ $( document ).ready(function() {
 
 	document.addEventListener("backbutton", Exit, false);  
 
+  window.plugin.backgroundMode.enable();
+  
  });
 
 </script>
