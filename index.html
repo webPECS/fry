@@ -71,22 +71,23 @@ function fieldsetFill(name) {
 
 	
   function showAlert() {
-    navigator.notification.beep(1);
-    navigator.notification.vibrate(1000);
+//    navigator.notification.beep(1);
+//    navigator.notification.vibrate(1000);
 
 
 cordova.plugins.notification.local.schedule({
-    title: "New Message",
-    message: "Hi, are you ready? We are waiting."
+    title: "Új rendelés!",
+//    message: "Hi, are you ready? We are waiting.",
+    icon: "file://icon.png"
 });
 
 
-    if (window.plugin.backgroundMode.isActive()) {
-      alert('bg mód aktív');
+//    if (window.plugin.backgroundMode.isActive()) {
+//      alert('bg mód aktív');
 //        window.plugin.backgroundMode.configure({
 //        text:'Próba...'
 //      });
-    }
+//    }
 
   }
 
