@@ -47,7 +47,7 @@
     <plugin name="org.apache.cordova.vibration" />
     <plugin name="org.apache.cordova.network-information" />
     <plugin name="cordova-plugin-whitelist" source="npm" />
-    <plugin name="de.appplant.cordova.plugin.local-notification" />    
+    <plugin name="de.appplant.cordova.plugin.local-notification" spec="0.8.1" source="pgb" />
 
     <!-- Third party plugins -->
     <plugin name="de.appplant.cordova.plugin.background-mode" />
