@@ -71,10 +71,14 @@ function fieldsetFill(name) {
 
 	
   function showAlert() {
-      alert('showalert fut');
-      
-      navigator.notification.beep(1);
-      navigator.notification.vibrate(1000);
+    if (cordova.plugins.backgroundMode.isActive()) {
+      cordova.plugins.backgroundMode.configure({
+        text:'Próba...'
+      });
+    }
+
+    navigator.notification.beep(1);
+    navigator.notification.vibrate(1000);
   }
 
 
@@ -99,8 +103,6 @@ function sendOrder() {
 
 function readOrder(func) {
   
-  alert('readOrder fut');
-
   var timestamp = '';
   var ujstring = '';
   var ujtomb = [];
@@ -421,6 +423,8 @@ function onDeviceReady() {
     //van page tárolva
     Store(window.localStorage.getItem("page"));
   }
+  
+  cordova.plugins.backgroundMode.enable();  
 }
 
 
@@ -440,8 +444,6 @@ $( document ).ready(function() {
 
 	document.addEventListener("backbutton", Exit, false);  
 
-  window.plugin.backgroundMode.enable();
-    
  });
 
 </script>
