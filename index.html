@@ -64,17 +64,15 @@ function fieldsetFill(name) {
   ;
   });
   $("#"+name).enhanceWithin().controlgroup("refresh");
-
-//  if (name == 'kaja') { 
-    $("input[name=" + name + "]").click(showPlus);
-//}
-
+  $("input[name=" + name + "]").click(showPlus);
 }
 
 
 
 	
   function showAlert() {
+      alert('showalert fut');
+      
       navigator.notification.beep(1);
       navigator.notification.vibrate(1000);
   }
@@ -100,6 +98,8 @@ function sendOrder() {
 
 
 function readOrder(func) {
+  
+  alert('readOrder fut');
 
   var timestamp = '';
   var ujstring = '';
@@ -138,7 +138,6 @@ function readOrder(func) {
         });
 
 
-  console.log(ujstring);
 	window.tombr.push(JSON.parse("[" + ujstring + "]"));
   if (func!='confirm') {
     showAlert();
