@@ -47,6 +47,7 @@
     <gap:plugin name="org.apache.cordova.vibration" />
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="cordova-plugin-whitelist" source="npm" />
+    <gap:plugin name="de.appplant.cordova.plugin.local-notification" />    
 
     <!-- Third party plugins -->
     <gap:plugin name="de.appplant.cordova.plugin.background-mode" />

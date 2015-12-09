@@ -77,6 +77,14 @@ function fieldsetFill(name) {
   function showAlert() {
       navigator.notification.beep(2);
       navigator.notification.vibrate(2000);
+
+cordova.plugins.notification.local.schedule({
+    title: "New Message",
+    message: "Hi, are you ready? We are waiting.",
+//    sound: "file://sounds/message.mp3",
+//    icon: "http://my.domain.de/avatar/user#id=123"
+});
+      
   }
 
 
