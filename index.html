@@ -78,9 +78,12 @@ function fieldsetFill(name) {
       navigator.notification.beep(1);
       navigator.notification.vibrate(1000);
 
-      cordova.plugins.backgroundMode.configure({
+if (window.plugin.backgroundMode.isActive()) {
+      window.plugin.backgroundMode.configure({
         text:'Próba...'
-      });      
+      });
+}
+
   }
 
 
@@ -445,10 +448,7 @@ $( document ).ready(function() {
 
 	document.addEventListener("backbutton", Exit, false);  
 
-
-  window.plugin.backgroundMode.setDefaults({ text:'Doing heavy tasks.'});
   window.plugin.backgroundMode.enable();
-
     
  });
 
