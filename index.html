@@ -71,30 +71,25 @@ function fieldsetFill(name) {
 
 	
   function showAlert() {
-//    navigator.notification.beep(1);
-//    navigator.notification.vibrate(1000);
 
-var deviceVersion = device.version;
-var deviceVersionNum = parseInt(deviceVersion.charAt(0));
-if (deviceVersionNum==2) {
-  var iconFile = "file://themes/images/status_bar_icon_v9.png";
-} else {
-  var iconFile = "file://themes/images/status_bar_icon.png";
-}
-
-cordova.plugins.notification.local.schedule({
-    title: "Rendelés!",
-    message: "Új FRY rendelés érkezett!",
-    icon: iconFile
-});
-
-
-//    if (window.plugin.backgroundMode.isActive()) {
+    if (window.plugin.backgroundMode.isActive()) {
 //      alert('bg mód aktív');
 //        window.plugin.backgroundMode.configure({
 //        text:'Próba...'
 //      });
-//    }
+
+cordova.plugins.notification.local.schedule({
+    title: "Rendelés!",
+    message: "Új FRY rendelés érkezett!",
+    icon: "file://themes/images/status_bar_icon.png"
+});
+
+    } else {
+
+    navigator.notification.beep(1);
+    navigator.notification.vibrate(1000);
+      
+    }
 
   }
 
