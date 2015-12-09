@@ -72,7 +72,7 @@ function fieldsetFill(name) {
 	
   function showAlert() {
 
-    if (window.plugin.backgroundMode.isActive()) {
+//    if (window.plugin.backgroundMode.isActive()) {
 //      alert('bg mód aktív');
 //        window.plugin.backgroundMode.configure({
 //        text:'Próba...'
@@ -84,12 +84,12 @@ cordova.plugins.notification.local.schedule({
     icon: "file://themes/images/status_bar_icon.png"
 });
 
-    } else {
+//    } else {
 
-    navigator.notification.beep(1);
-    navigator.notification.vibrate(1000);
+//    navigator.notification.beep(1);
+//    navigator.notification.vibrate(1000);
       
-    }
+//    }
 
   }
 
