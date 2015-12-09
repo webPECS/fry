@@ -75,13 +75,17 @@ function fieldsetFill(name) {
 //    navigator.notification.vibrate(1000);
 
 var deviceVersion = device.version;
-
-alert(deviceVersion);
+var deviceVersionNum = parseInt(deviceVersion.charAt(0));
+if (deviceVersionNum==2) {
+  var iconFile = "file://themes/images/status_bar_icon_v9.png";
+} else {
+  var iconFile = "file://themes/images/status_bar_icon.png";
+}
 
 cordova.plugins.notification.local.schedule({
     title: "Rendelés!",
     message: "Új FRY rendelés érkezett!",
-    icon: "file://themes/images/status_bar_icon.png"
+    icon: iconFile
 });
 
 
