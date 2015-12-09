@@ -42,15 +42,15 @@
     <gap:platform name="android" />
 
     <!-- Core plugins -->
-    <gap:plugin name="org.apache.cordova.device" />
-    <gap:plugin name="org.apache.cordova.dialogs" />
-    <gap:plugin name="org.apache.cordova.vibration" />
-    <gap:plugin name="org.apache.cordova.network-information" />
-    <gap:plugin name="cordova-plugin-whitelist" source="npm" />
-    <gap:plugin name="de.appplant.cordova.plugin.local-notification" />    
+    <plugin name="org.apache.cordova.device" />
+    <plugin name="org.apache.cordova.dialogs" />
+    <plugin name="org.apache.cordova.vibration" />
+    <plugin name="org.apache.cordova.network-information" />
+    <plugin name="cordova-plugin-whitelist" source="npm" />
+    <plugin name="de.appplant.cordova.plugin.local-notification" />    
 
     <!-- Third party plugins -->
-    <gap:plugin name="de.appplant.cordova.plugin.background-mode" />
+    <plugin name="de.appplant.cordova.plugin.background-mode" />
 
 
     <!-- Define app icon for each platform. -->
