@@ -74,11 +74,14 @@ function fieldsetFill(name) {
 //    navigator.notification.beep(1);
 //    navigator.notification.vibrate(1000);
 
+var deviceVersion = device.version;
+
+alert(deviceVersion);
 
 cordova.plugins.notification.local.schedule({
-    title: "Új rendelés!",
-//    message: "Hi, are you ready? We are waiting.",
-    icon: "file://icon.png"
+    title: "Rendelés!",
+    message: "Új FRY rendelés érkezett!",
+    icon: "file://themes/images/status_bar_icon.png"
 });
 
 
